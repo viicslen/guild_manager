@@ -1,0 +1,14 @@
+.md-form.md-outline label {
+    top: -1px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background-position: center;
+    background-size: cover;
+}
+
+.select-outline label {
+    z-index: 2;
+}
