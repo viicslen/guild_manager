@@ -8,7 +8,7 @@
         </li>
     @else
         <li class="nav-item {{ (request()->segment(1) === 'guilds' ? 'active' : '') }}">
-            <a class="nav-link" href="{{ url("guilds") }}">Join a Guild</a>
+            <a class="nav-link" href="{{ url("guilds") }}">Guilds</a>
         </li>
     @endif
 @endauth
