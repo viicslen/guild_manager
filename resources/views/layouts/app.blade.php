@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} @yield('title')</title>
+    <title>{{ config('app.name', 'BDO Guilds') }} @yield('title')</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -33,13 +33,15 @@
 </head>
 <body>
     <div id="app">
-        <nav class="mb-1 navbar navbar-expand-lg navbar-light white">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light white">
             <div class="container position-relative">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu"
                         aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand mr-auto mr-lg-3" href="{{ url('/') }}">{{ config('app.name', 'Laravel') }}</a>
+                <a class="navbar-brand mr-auto mr-lg-3" href="{{ url('/') }}">
+                        {{ (!Auth::guest() && isset(Auth::user()->guild) ? Auth::user()->guild->name : config('app.name', 'BDO Guilds')) }}
+                </a>
                 @auth
                     <a class="nav-link d-flex align-items-center d-inline-block d-lg-none">
                         <div style="background-image: url({{ Auth::user()->avatar }})" class="rounded-circle z-depth-0 user-avatar"></div>
@@ -47,27 +49,7 @@
                 @endauth
                 <div class="collapse navbar-collapse" id="navbarMenu">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">Dropdown
-                            </a>
-                            <div class="dropdown-menu dropdown-secondary" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
+                        @include('layouts.menu.main')
                     </ul>
                     <ul class="navbar-nav ml-auto nav-flex-icons">
                         <!-- Authentication Links -->
@@ -81,55 +63,16 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item d-none d-lg-inline-block">
-                                <a class="nav-link dropdown-toggle d-flex align-items-center"
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true"
-                                   aria-expanded="false">
-                                    <div style="background-image: url({{ Auth::user()->avatar }})" class="rounded-circle z-depth-0 user-avatar"></div>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right scrollbar-default" aria-labelledby="navbarDropdown">
-                                    <div class="row mx-0">
-                                        <div class="col-auto text-center">
-                                            <div class="">
-                                                <img src="{{ Auth::user()->avatar }}" class="rounded-circle z-depth-0" style="object-fit: cover; width: 6rem; height: 6rem"/>
-                                            </div>
-                                        </div>
-                                        <div class="col text-right">
-                                            <h5 class="font-weight-bold dark-grey-text">{{ Auth::user()->user }}</h5>
-                                            <h6 class="grey-text"><strong>{{ Auth::user()->family }}</strong></h6>
-                                            <a href="{{ url('account/manage') }}" class="btn btn-rounded btn-danger btn-sm text-white px-2 py-1 mx-0"><small><i class="far fa-user pr-2" aria-hidden="true"></i>Account</small></a>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-divider"></div>
-                                    <h6 class="dropdown-header">Account</h6>
-                                    <a class="dropdown-item d-block" href="{{ url('account/characters') }}"><i class="far fa-comment-alt mr-1"></i>Characters</a>
-                                    <a class="dropdown-item d-block" href="{{ url('account/messages') }}"><i class="far fa-comment-alt mr-1"></i>Messages</a>
-                                    <div class="dropdown-divider"></div>
-                                    @if ( Auth::user()->id = 1 )
-                                        <h6 class="dropdown-header">Administration</h6>
-                                        <a class="dropdown-item d-block" href="/Account/Manage/Chat"><i class="fas fa-comments mr-1"></i>Discussion</a>
-                                        <a class="dropdown-item d-block" href="/Admin/Users"><i class="fas fa-users mr-1"></i>Gestion des utilisateurs</a>
-                                        <a class="dropdown-item d-block" href="/Admin/SendNotifications"><i class="fas fa-paper-plane mr-1"></i>Envoyer notifications</a>
-                                        <a class="dropdown-item d-block" href="/Admin/Dashboard"><i class="fas fa-tachometer-alt mr-1"></i>Tableau de bord</a>
-                                        <a class="dropdown-item d-block" href="/Admin/JavascriptConsole"><i class="fas fa-bug mr-1"></i>Console Javascript</a>
-                                        <div class="dropdown-divider"></div>
-                                    @endif
-                                    <form method="post">
-                                        <button class="dropdown-item"><i class="fas fa-power-off mr-1"></i>Déconnexion</button>
-                                    </form>
-                                </div>
-                            </li>
+                            @include('layouts.menu.user.dropdown')
                         @endguest
                     </ul>
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
+        <main class="pt-5 mt-5">
             @yield('content')
         </main>
     </div>
+    @include('layouts.include.messages')
 </body>
 </html>

@@ -1,18 +1,24 @@
 @extends('layouts.app')
-@section('title', ' - ' . ($character->name ?? 'New Character'))
+@section('title', ' - ' . (isset($character->name) ? "Edit Character: $character->name"  : 'Create Character'))
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-8 col-lg-6 mx-auto">
-                <form class="form validate" action="{{ url('account/characters/'. ($character->id ?? ''))  }}" method="POST">
+                <form class="form validate" action="{{ url('account/characters/'. ($character->uuid ?? ''))  }}" method="POST" enctype="multipart/form-data">
                     @if( isset($character) ) @method('PUT') @endif
                     @csrf
-                    <dic class="card">
+                    <div class="card">
+
                         <div class="card-body">
                             <div class="card-title">
                                 <h4 class="mb-0 font-weight-light">{{ (isset($character) ? 'Edit Character' : 'New Character') }}</h4>
                             </div>
                             <hr/>
+                            @if(isset($character) && isset($character->gear_picture))
+                                <div class="gear-picture-container img-thumbnail my-2">
+                                    <img class="w-100" src="{{ url($character->gear_picture) }}" alt="Gear Picture">
+                                </div>
+                            @endif
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="md-form md-outline my-2">
@@ -28,7 +34,7 @@
                                 </div>
                                 <div class="col-sm-8 select-outline">
                                     <select class="mdb-select md-form md-outline colorful-select dropdown-primary my-2" id="class" name="class">
-                                        <option value="" disabled {{ (isset($character->class) ?: 'selected') }}>Choose your class</option>
+                                        <option value="" disabled {{ (isset($character->class) ? '' : 'selected') }}>Choose your class</option>
                                         @foreach( App\Enums\ClassType::toArray() as $class)
                                             <option {{ (($character->class ?? '') === $class ? 'selected' : '') }} value="{{$class}}">{{App\Enums\ClassType::getKey($class)}}</option>
                                         @endforeach
@@ -53,13 +59,54 @@
                                         <label for="dp" class="{{ (isset($character) ? 'active' : '') }}">DP</label>
                                     </div>
                                 </div>
+                                <div class="col-sm-12 select-outline">
+                                    <select class="mdb-select md-form md-outline colorful-select dropdown-primary my-2" id="knowledge" name="knowledge">
+                                        <option value="" disabled {{ (isset($character->knowledge) ? '' : 'selected') }}>Class Knowledge</option>
+                                        @foreach( App\Enums\ClassKnowledge::toArray() as $knowledge)
+                                            <option {{ (($character->knowledge ?? '') == $knowledge ? 'selected' : '') }} value="{{$knowledge}}">{{App\Enums\ClassKnowledge::getKey($knowledge)}}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="knowledge">Knowledge</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mt-2">
+                                    <div class="file-field">
+                                        <a class="btn-floating btn-sm blue-gradient float-left mt-1">
+                                            <i class="fas fa-paperclip" aria-hidden="true"></i>
+                                            <input type="file" name="gear-picture">
+                                        </a>
+                                        <div class="file-path-wrapper px-0">
+                                            <div class="md-form md-outline my-1">
+                                                <input class="file-path form-control" id="file-name" type="text" style="box-sizing: border-box" value="{{ (isset($character) && isset($character->gear_picture) ? url($character->gear_picture) : '') }}">
+                                                <label for="file-name" class="{{ (isset($character) && isset($character->gear_picture) ? 'active' : '') }}">Gear Picture</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </dic>
+                    </div>
+                    <div class="row py-2">
+                        @if(isset($character))
+                            <div class="col px-2">
+                                <button type="button" id="btn-delete" class="btn btn-sm btn-danger" onclick="$('#delete-form').submit()">Delete</button>
+                            </div>
+                        @endif
+                        <div class="col text-right px-2">
+                            <a href="{{ url('account/characters') }}" class="btn btn-sm btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-sm btn-primary">{{ isset($character) ? 'Save' : 'Add' }}</button>
+                        </div>
+                    </div>
                 </form>
+                @if(isset($character))
+                    <form id="delete-form" action="{{ url('account/characters/'. $character->uuid) }}" method="post">
+                        @method('DELETE')
+                        @csrf
+                    </form>
+                @endif
             </div>
         </div>
-
     </div>
     <script>
         $(function () {
