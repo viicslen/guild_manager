@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use emberlabs\GravatarLib\Gravatar;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -51,6 +51,10 @@ class User extends Authenticatable
     }
 
     public function characters() {
-        return $this->hasMany('App\Character');
+        return $this->hasMany('App\Models\Character');
+    }
+
+    public function guild() {
+        return $this->hasOne('App\Models\Guild', 'owner_id') ?? $this->belongsTo('App\Models\Guild');
     }
 }

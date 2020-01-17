@@ -31,7 +31,7 @@
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/mdb.min.js') }}"></script>
 </head>
-<body>
+<body class="grey-skin">
     <div id="app">
         <nav class="navbar fixed-top navbar-expand-lg navbar-light white">
             <div class="container position-relative">

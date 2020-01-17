@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Enums\ClassKnowledge;
 use App\Enums\ClassType;
@@ -12,7 +12,7 @@ class Character extends Model
     use GeneratesUuid;
 
     public function user() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function getClassNameAttribute() {

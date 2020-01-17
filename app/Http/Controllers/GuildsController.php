@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guild;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GuildsController extends Controller
 {
@@ -13,7 +15,8 @@ class GuildsController extends Controller
      */
     public function index()
     {
-        return response()->view('guilds.home');
+
+        return response()->view('guilds.home', ['guilds' => Guild::all()]);
     }
 
     /**
@@ -34,7 +37,31 @@ class GuildsController extends Controller
      */
     public function store(Request $request)
     {
-
+        $guild = Guild::create([
+            'owner_id' => Auth::user()->id,
+            'name' => $request->get('name'),
+            'type' => $request->get('type'),
+            'logo' => $request->file('logo')->storeAs('logos', $request->file('logo')->getClientOriginalName()),
+            'description' => $request->get('description'),
+            'requirements' => [
+                [
+                    'requirement' => 'Node War',
+                    'quantity' => $request->get('request-war-quantity'),
+                    'interval' => $request->get('request-war-interval')
+                ],
+                [
+                    'requirement' => 'Quests',
+                    'quantity' => $request->get('request-quest-quantity'),
+                    'interval' => $request->get('request-quest-interval')
+                ],
+                [
+                    'requirement' => 'Gear Score',
+                    'quantity' => $request->get('request-war-quantity'),
+                    'interval' => $request->get('request-war-interval')
+                ],
+            ]
+        ]);
+        return response()->redirectTo("guilds");
     }
 
     /**
@@ -45,7 +72,7 @@ class GuildsController extends Controller
      */
     public function show($id)
     {
-        return response()->view('guilds.show');
+        return response()->view('guilds.view', ['guild' => Guild::whereUuid($id)->get()]);
     }
 
     /**
@@ -56,7 +83,7 @@ class GuildsController extends Controller
      */
     public function edit($id)
     {
-        return response()->view('guilds.edit');
+        return response()->view('guilds.edit', ['guild' => Guild::whereUuid($id)->get()]);
     }
 
     /**
