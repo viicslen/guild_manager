@@ -13,7 +13,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-        return view('events.home');
+        return response()->view('events.home');
     }
 
     /**
@@ -23,7 +23,7 @@ class EventsController extends Controller
      */
     public function create()
     {
-        //
+        return response()->view('events.create');
     }
 
     /**

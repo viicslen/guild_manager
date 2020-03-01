@@ -36,7 +36,7 @@ class CharactersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -57,7 +57,7 @@ class CharactersController extends Controller
             $character->save();
         }
 
-        return redirect('account/characters')->with('success', "$character->name saved successfully");
+        return response()->redirectTo('account/characters')->with('success', "$character->name saved successfully");
     }
 
     /**

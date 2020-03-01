@@ -33,7 +33,7 @@ class Guild extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function members() {
-        return $this->hasMany('App\User');
+        return $this->hasMany('App\Models\User', 'guild_uuid', 'uuid');
     }
 
     /**
@@ -53,30 +53,5 @@ class Guild extends Model
     public function setRequirementsAttribute($value) {
         if (is_string($value)) $this->attributes['requirements'] = $value;
         else $this->attributes['requirements'] = json_encode($value);
-    }
-
-    /**
-     * Get the requirements column and format it to an array
-     *
-     * @return array
-     */
-    public function getRequirementsTextAttribute() {
-        $requirementsArr = [];
-        foreach ($this->requirements as $requirement) {
-            if (!empty($requirement->quantity) || $requirement->quantity > 0) $requirementsArr[] = $requirement->quantity . ' '
-                . $requirement->requirement
-                . ($requirement->quantity > 1 ? 's' : '')
-                . (!empty($requirement->interval) ? " " . $requirement->interval : '');
-        }
-        return $requirementsArr;
-    }
-
-    /**
-     * Get the description column and replace newline chars with <br/>
-     *
-     * @return array
-     */
-    public function getDescriptionAttribute() {
-        return nl2br($this->attributes['description']);
     }
 }

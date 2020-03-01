@@ -26,29 +26,18 @@
             <div class="card-body">
                 @foreach($guilds as $guild)
                     <div class="row">
-                        <div class="col-sm-2 col-md-1">
+                        <div class="col-sm-2 col-md-1 pr-0 d-flex align-items-center">
                             <div class="img-thumbnail w-100">
-                                <img src="{{ url('images/'.$guild->logo) }}" class="img-fluid" alt="{{$guild->name}}'s Logo">
+                                <img src="{{ (empty($guild->logo) ? 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg' : url('images/'.$guild->logo)) }}" class="img-fluid" alt="{{$guild->name}}'s Logo">
                             </div>
                         </div>
-                        <div class="col-sm font-weight-light">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h5 class="h5 font-weight-light">{{$guild->name}} <small class="text-muted">({{$guild->type}})</small></h5>
-                                </div>
-                                <div class="col-6 text-right">
-                                    <div class="pr-3">
-                                        Requirements: {{ implode(', ', $guild->requirements_text) }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p class="collapse-text collapse mb-1" id="description-{{$guild->uuid}}" aria-expanded="false">{!! $guild->description !!}</p>
-                                    <a role="button" class="collapsed" data-toggle="collapse" href="#description-{{$guild->uuid}}" aria-expanded="false" aria-controls="description-{{$guild->uuid}}">
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="col-sm d-flex align-items-center">
+                            <h5 class="h5 font-weight-light">{{$guild->name}} <small class="text-muted">({{$guild->type}})</small></h5>
+                        </div>
+                        <div class="col-2 text-right">
+                            @foreach($guild->requirements as $requirement)
+
+                            @endforeach
                         </div>
                     </div>
                 @endforeach

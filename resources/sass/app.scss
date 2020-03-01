@@ -9,6 +9,7 @@
 
 // MDBootstrap
 @import '~mdbootstrap/scss/mdb-pro';
+@import '~mdbootstrap/scss/addons-pro/cards-extended';
 
 
 p.collapse.collapse-text:not(.show)[aria-expanded="false"] {
@@ -29,4 +30,34 @@ p.collapsing.collapse-text[aria-expanded="false"] {
 
 .collapse-text + a:not(.collapsed):after {
     content: '- Show Less';
+}
+
+.md-form.md-outline label {
+    top: -1px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background-position: center;
+    background-size: cover;
+}
+
+.select-outline label {
+    z-index: 2;
+}
+
+.collapse.minimized:not(.show) {
+    display: block;
+    max-height: 70px;
+    overflow-y: hidden;
+}
+
+.collapsing.minimized {
+    min-height: 70px;
+    overflow-y: hidden;
+}
+
+.character-card, .character-card * {
+    cursor: pointer;
 }

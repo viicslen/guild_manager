@@ -30,6 +30,7 @@
     <script src="{{ asset('js/popper.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/mdb.min.js') }}"></script>
+    <script src="{{ asset('js/addons-pro/cards-extended.min.js') }}"></script>
 </head>
 <body class="grey-skin">
     <div id="app">

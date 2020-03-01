@@ -17,10 +17,10 @@
             <div class="col text-right">
                 <h5 class="font-weight-bold dark-grey-text">{{ Auth::user()->user }}</h5>
                 <h6 class="grey-text"><strong>{{ Auth::user()->family }}</strong></h6>
-                <a href="{{ url('account/manage') }}" class="btn btn-rounded btn-info btn-sm text-white px-2 py-1 mx-0">
+                <a href="{{ url('account/profile') }}" class="btn btn-rounded btn-info btn-sm text-white px-2 py-1 mx-0">
                     <small>
                         <i class="far fa-user px-1" aria-hidden="true"></i>
-                        Manage
+                        Profile
                     </small>
                 </a>
             </div>

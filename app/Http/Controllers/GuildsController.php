@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GuildRequirement;
 use App\Models\Guild;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,34 +34,43 @@ class GuildsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
+        //return dd($request);
         $guild = Guild::create([
             'owner_id' => Auth::user()->id,
             'name' => $request->get('name'),
             'type' => $request->get('type'),
-            'logo' => $request->file('logo')->storeAs('logos', $request->file('logo')->getClientOriginalName()),
             'description' => $request->get('description'),
             'requirements' => [
                 [
-                    'requirement' => 'Node War',
-                    'quantity' => $request->get('request-war-quantity'),
-                    'interval' => $request->get('request-war-interval')
+                    'requirement' => GuildRequirement::NodeWar,
+                    'quantity' => $request->get('required-war-quantity'),
+                    'interval' => $request->get('required-war-interval')
                 ],
                 [
-                    'requirement' => 'Quests',
-                    'quantity' => $request->get('request-quest-quantity'),
-                    'interval' => $request->get('request-quest-interval')
+                    'requirement' => GuildRequirement::Quest,
+                    'quantity' => $request->get('required-quest-quantity'),
+                    'interval' => $request->get('required-quest-interval')
                 ],
                 [
-                    'requirement' => 'Gear Score',
-                    'quantity' => $request->get('request-war-quantity'),
-                    'interval' => $request->get('request-war-interval')
+                    'requirement' => GuildRequirement::GearScore,
+                    'quantity' => $request->get('required-gear-score'),
+                    'interval' => $request->get('required-gear-offhand')
                 ],
             ]
         ]);
+
+        if ($request->hasFile('logo')) {
+            $guild->logo = $request->file('logo')->storeAs('logos', $request->file('logo')->getClientOriginalName());
+            $guild->save();
+        }
+
+        Auth::user()->guild_uuid = $guild->uuid;
+        Auth::user()->save();
+
         return response()->redirectTo("guilds");
     }
 
@@ -72,7 +82,7 @@ class GuildsController extends Controller
      */
     public function show($id)
     {
-        return response()->view('guilds.view', ['guild' => Guild::whereUuid($id)->get()]);
+        return response()->view('guilds.view', ['guild' => Guild::whereUuid($id)->first()]);
     }
 
     /**

@@ -1,11 +1,6 @@
 @extends('layouts.app')
 @section('title', '- Characters')
 @section('content')
-    <style>
-        .character-card, .character-card * {
-            cursor: pointer;
-        }
-    </style>
     <div class="container">
         <div class="card mb-2">
             <div class="card-body py-2">

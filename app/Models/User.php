@@ -55,6 +55,6 @@ class User extends Authenticatable
     }
 
     public function guild() {
-        return $this->hasOne('App\Models\Guild', 'owner_id') ?? $this->belongsTo('App\Models\Guild');
+       return $this->belongsTo('App\Models\Guild', 'guild_uuid', 'uuid');
     }
 }

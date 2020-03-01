@@ -6,6 +6,9 @@
         <li class="nav-item {{ (request()->segment(1) === 'news' ? 'active' : '') }}">
             <a class="nav-link" href="{{ url('news') }}">News</a>
         </li>
+        <li class="nav-item {{ (request()->segment(1) === 'events' ? 'active' : '') }}">
+            <a class="nav-link" href="{{ url('events') }}">Events</a>
+        </li>
     @else
         <li class="nav-item {{ (request()->segment(1) === 'guilds' ? 'active' : '') }}">
             <a class="nav-link" href="{{ url("guilds") }}">Guilds</a>
