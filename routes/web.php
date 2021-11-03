@@ -27,4 +27,3 @@ Route::get('account/profile', 'UsersController@own')->middleware('auth');
 
 // Images
 Route::get('images/{folder}/{filename}', 'ImagesController@getFile');
-

@@ -11,15 +11,18 @@ class Character extends Model
 {
     use GeneratesUuid;
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
 
-    public function getClassNameAttribute() {
+    public function getClassNameAttribute()
+    {
         return ClassType::getKey($this->class);
     }
 
-    public function getKnowledgeTextAttribute() {
+    public function getKnowledgeTextAttribute()
+    {
         return ClassKnowledge::getKey($this->knowledge);
     }
 }

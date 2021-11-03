@@ -17,6 +17,7 @@ class CharactersController extends Controller
     public function index()
     {
         $user = Auth::user();
+
         return view('characters.home')->with([
             'characters' => $user->characters,
         ]);
@@ -52,8 +53,8 @@ class CharactersController extends Controller
         $character->save();
 
         $gear_picture = $request->file('gear-picture');
-        if (!empty($gear_picture)) {
-            $character->gear_picture = 'images/'.$gear_picture->storeAs('gear', $character->uuid.".".$gear_picture->getClientOriginalExtension());
+        if (! empty($gear_picture)) {
+            $character->gear_picture = 'images/'.$gear_picture->storeAs('gear', $character->uuid.'.'.$gear_picture->getClientOriginalExtension());
             $character->save();
         }
 
@@ -69,11 +70,17 @@ class CharactersController extends Controller
     public function show($uuid)
     {
         $character = Character::whereUuid($uuid)->first();
-        if (!$character->exists())
+        if (! $character->exists()) {
             return redirect()->back()->with('error', 'Character not found');
+        }
+
         return view('characters.character')->with('character', $character);
     }
-    public function edit($uuid) {return $this->show($uuid);}
+
+    public function edit($uuid)
+    {
+        return $this->show($uuid);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -86,10 +93,12 @@ class CharactersController extends Controller
     {
         //return dd($request);
         $character = Character::whereUuid($uuid)->first();
-        if (!$character->exists())
+        if (! $character->exists()) {
             return redirect()->back()->with('error', 'Character not found');
-        if ($character->user->id !== Auth::user()->id)
+        }
+        if ($character->user->id !== Auth::user()->id) {
             return redirect('account/characters')->with('error', 'You are not authorized to make changes to this character');
+        }
 
         $character->name = $request->input('name');
         $character->class = $request->input('class');
@@ -101,8 +110,8 @@ class CharactersController extends Controller
         $character->save();
 
         $gear_picture = $request->file('gear-picture');
-        if (!empty($gear_picture)) {
-            $character->gear_picture = 'images/'.$gear_picture->storeAs('gear', $character->uuid.".".$gear_picture->getClientOriginalExtension());
+        if (! empty($gear_picture)) {
+            $character->gear_picture = 'images/'.$gear_picture->storeAs('gear', $character->uuid.'.'.$gear_picture->getClientOriginalExtension());
             $character->save();
         }
 
@@ -118,15 +127,20 @@ class CharactersController extends Controller
     public function destroy($uuid)
     {
         $character = Character::whereUuid($uuid)->first();
-        if (!$character->exists())
+        if (! $character->exists()) {
             return redirect()->back()->with('error', 'Character not found');
-        if ($character->user->id !== Auth::user()->id)
+        }
+        if ($character->user->id !== Auth::user()->id) {
             return redirect('account/characters')->with('error', 'You are not authorized');
+        }
 
-        if (Storage::exists($character->gear_picture)) Storage::delete($character->gear_picture);
+        if (Storage::exists($character->gear_picture)) {
+            Storage::delete($character->gear_picture);
+        }
 
         $character_name = $character->name;
         $character->delete();
+
         return redirect('account/characters')->with('info', "$character_name deleted successfully");
     }
 }

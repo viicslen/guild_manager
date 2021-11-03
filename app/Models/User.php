@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use emberlabs\GravatarLib\Gravatar;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -39,22 +38,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute() {
+    public function getAvatarAttribute()
+    {
         /**
-        $gravatar = new Gravatar();
-        // example: setting default image and maximum size
-        $gravatar->setDefaultImage($this->attributes['avatar'] ?? asset("storage/app/public/default-avatar.jpg"))
-                    ->setAvatarSize(150);
-        return $gravatar->buildGravatarURL($this->email);
-        **/
+         * $gravatar = new Gravatar();
+         * // example: setting default image and maximum size
+         * $gravatar->setDefaultImage($this->attributes['avatar'] ?? asset("storage/app/public/default-avatar.jpg"))
+         * ->setAvatarSize(150);
+         * return $gravatar->buildGravatarURL($this->email);.
+         **/
         return $this->attributes['avatar'] ?? asset('storage/default-avatar.jpg');
     }
 
-    public function characters() {
+    public function characters()
+    {
         return $this->hasMany('App\Models\Character');
     }
 
-    public function guild() {
-       return $this->belongsTo('App\Models\Guild', 'guild_uuid', 'uuid');
+    public function guild()
+    {
+        return $this->belongsTo('App\Models\Guild', 'guild_uuid', 'uuid');
     }
 }

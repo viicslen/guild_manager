@@ -15,43 +15,50 @@ class Guild extends Model
         'logo',
         'requirements',
         'type',
-        'owner_id'
+        'owner_id',
     ];
 
     /**
-     * Retrieves the Guild's owner
+     * Retrieves the Guild's owner.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function owner() {
+    public function owner()
+    {
         return $this->belongsTo('App\Models\User');
     }
 
     /**
-     * Retrieves the Guild's members
+     * Retrieves the Guild's members.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function members() {
+    public function members()
+    {
         return $this->hasMany('App\Models\User', 'guild_uuid', 'uuid');
     }
 
     /**
-     * Gets the requirements column and converts it to an object
+     * Gets the requirements column and converts it to an object.
      *
      * @return \stdClass
      */
-    public function getRequirementsAttribute() {
+    public function getRequirementsAttribute()
+    {
         return json_decode($this->attributes['requirements']);
     }
 
     /**
-     * Sets the requirements column
+     * Sets the requirements column.
      *
-     * @param array|\stdClass|string $value
+     * @param  array|\stdClass|string  $value
      */
-    public function setRequirementsAttribute($value) {
-        if (is_string($value)) $this->attributes['requirements'] = $value;
-        else $this->attributes['requirements'] = json_encode($value);
+    public function setRequirementsAttribute($value)
+    {
+        if (is_string($value)) {
+            $this->attributes['requirements'] = $value;
+        } else {
+            $this->attributes['requirements'] = json_encode($value);
+        }
     }
 }

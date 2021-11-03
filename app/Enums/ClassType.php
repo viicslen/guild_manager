@@ -6,8 +6,8 @@ use BenSampo\Enum\Enum;
 
 final class ClassType extends Enum
 {
-    const Warrior =   0;
-    const Ranger =   1;
+    const Warrior = 0;
+    const Ranger = 1;
     const Sorceress = 2;
     const Berserker = 3;
     const Tamer = 4;

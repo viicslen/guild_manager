@@ -16,7 +16,6 @@ class GuildsController extends Controller
      */
     public function index()
     {
-
         return response()->view('guilds.home', ['guilds' => Guild::all()]);
     }
 
@@ -48,19 +47,19 @@ class GuildsController extends Controller
                 [
                     'requirement' => GuildRequirement::NodeWar,
                     'quantity' => $request->get('required-war-quantity'),
-                    'interval' => $request->get('required-war-interval')
+                    'interval' => $request->get('required-war-interval'),
                 ],
                 [
                     'requirement' => GuildRequirement::Quest,
                     'quantity' => $request->get('required-quest-quantity'),
-                    'interval' => $request->get('required-quest-interval')
+                    'interval' => $request->get('required-quest-interval'),
                 ],
                 [
                     'requirement' => GuildRequirement::GearScore,
                     'quantity' => $request->get('required-gear-score'),
-                    'interval' => $request->get('required-gear-offhand')
+                    'interval' => $request->get('required-gear-offhand'),
                 ],
-            ]
+            ],
         ]);
 
         if ($request->hasFile('logo')) {
@@ -71,7 +70,7 @@ class GuildsController extends Controller
         Auth::user()->guild_uuid = $guild->uuid;
         Auth::user()->save();
 
-        return response()->redirectTo("guilds");
+        return response()->redirectTo('guilds');
     }
 
     /**

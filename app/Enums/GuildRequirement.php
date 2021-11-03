@@ -11,7 +11,7 @@ use BenSampo\Enum\Enum;
  */
 final class GuildRequirement extends Enum
 {
-    const NodeWar =     0;
-    const Quest =       1;
-    const GearScore =   2;
+    const NodeWar = 0;
+    const Quest = 1;
+    const GearScore = 2;
 }

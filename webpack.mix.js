@@ -11,8 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.react('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix.react('resources/js/app.js', 'public/js').sass('resources/sass/app.scss', 'public/css');
 
 mix.copy('node_modules/mdbootstrap/js', 'public/js');
 mix.copy('node_modules/mdbootstrap/img', 'public/img');
@@ -21,4 +20,3 @@ mix.copy('node_modules/mdbootstrap/mdb-addons', 'public/mdb-addons');
 mix.copy('node_modules/mdbootstrap/templates', 'public/templates');
 
 mix.browserSync('localhost');
-
